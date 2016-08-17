@@ -1,15 +1,13 @@
 /*
 
     Variables consumed from the EXTRA_VARS input to your seed job in addition
-    to those listed in createJobs.
+    to those listed in the seed job.
 
-    * KEYPAIRS: (required)
-        - deployment_key 
-    * BASE_AMI
-    * CALLBACK_URL
+    * BASIC_AUTH_USER 
+    * BASIC_AUTH_PASS
 
 */
-package devops
+package devops.jobs
 
 import static org.edx.jenkins.dsl.DevopsConstants.common_wrappers
 import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
@@ -33,14 +31,14 @@ class CreateSandbox {
             parameters {
                 booleanParam("recreate",true,"Checking this option will terminate an existing instance if it already exists and start over from scratch")
                 stringParam("dns_param","",
-                        "DNS name, if left blank will default to your github username.
-                         One reason you might want to override this field is if you are building a sandbox for review or a specific task.
-                         If setting this, you probably want to also set name_tag below.
-                         For example, if you are building a sandbox for pull request 1234 put in 'pr1234' which will setup the sandbox <i>pr1234.sandbox.edx.org</i>.<br />
+                        "DNS name, if left blank will default to your github username. \
+                         One reason you might want to override this field is if you are building a sandbox for review or a specific task. \
+                         If setting this, you probably want to also set name_tag below. \
+                         For example, if you are building a sandbox for pull request 1234 put in 'pr1234' which will setup the sandbox <i>pr1234.sandbox.edx.org</i>.<br /> \
                          <b>If you are building a sandbox for yourself leave this blank</b><b>Do not use underscores</b>")
                 stringParam("name_tag","",
-                        "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br />
-                         If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag."
+                        "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br /> \
+                         If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
                 stringParam("sandbox_platform_name","sets EDXAPP_PLATFORM_NAME, by default it will take your github username/sandbox dns name as value")
                 stringParam("sandbox_life","7","Number of day(s) sandbox will be online(between 1 to 30)")
                 stringParam("configuration_version","master","")
@@ -139,7 +137,7 @@ class CreateSandbox {
 
                 stringParam("auth_user",extraVars.get('BASIC_AUTH_USER',''),"")
 
-                stringParam("auth_pass",extraVars.get('BASIC_AUTH_PASS','')
+                stringParam("auth_pass",extraVars.get('BASIC_AUTH_PASS',''),"")
 
                 booleanParam("start_services",true,"")
 
@@ -154,7 +152,7 @@ class CreateSandbox {
 
                 booleanParam("run_oauth",true,"")
 
-                stringParam("nginx_users",[{"name": "{{ COMMON_HTPASSWD_USER }}","password": "{{ COMMON_HTPASSWD_PASS }}")
+                stringParam("nginx_users",'{"name": "{{ COMMON_HTPASSWD_USER }}","password": "{{ COMMON_HTPASSWD_PASS }}"')
             }
 
 
