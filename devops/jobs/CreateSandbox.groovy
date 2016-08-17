@@ -20,6 +20,14 @@ class CreateSandbox {
 
             wrappers common_wrappers
 
+            wrappers {
+                credentialsBinding {
+                    file('AWS_CONFIG_FILE','tools-jenkins-aws-credentials')
+                    string('ROLE_ARN','sandbox-role-arn')
+                    string('DATADOG_KEY','datadog-key')
+                }
+            }
+
             logRotator common_logrotator
 
             parameters {
@@ -129,9 +137,9 @@ class CreateSandbox {
 
                 booleanParam("basic_auth",true,"")
 
-                stringParam("auth_user","","")
+                stringParam("auth_user",extraVars.get('BASIC_AUTH_USER',''),"")
 
-                stringParam("auth_pass","","")
+                stringParam("auth_pass",extraVars.get('BASIC_AUTH_PASS','')
 
                 booleanParam("start_services",true,"")
 
@@ -157,8 +165,6 @@ class CreateSandbox {
                 }
             }
 
-            multiscm common_multiscm(extraVars)
-
             concurrentBuild()
 
             steps {
@@ -167,11 +173,9 @@ class CreateSandbox {
                     nature("shell")
                     systemSitePackages(false)
 
-                    command(dslFactory.readFileFromWorkspace("resources/build-ami/build-ami.sh"))
+                    command(dslFactory.readFileFromWorkspace("devops/resources/create-sandbox.sh"))
 
                 }
-
-                shell (dslFactory.readFileFromWorkspace("resources/build-ami/check-play.sh"))
 
             }
 
