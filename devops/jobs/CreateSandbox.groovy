@@ -14,7 +14,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 
 class CreateSandbox {
     public static def job = { dslFactory, extraVars ->
-        return dslFactory.job(extraVars("FOLDER_NAME","Sandboxes") + "/Create Sandbox") {
+        return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/Create Sandbox") {
 
             wrappers common_wrappers
 
@@ -39,7 +39,7 @@ class CreateSandbox {
                 stringParam("name_tag","",
                         "This name tag uniquely identifies your sandbox.  <b>If a box already exists with this name tag, it will be terminated.</b><br /> \
                          If you want to have multiple sandboxes running simultaneously, you must give each one a unique name tag.")
-                stringParam("sandbox_platform_name","sets EDXAPP_PLATFORM_NAME, by default it will take your github username/sandbox dns name as value")
+                stringParam("sandbox_platform_name","","sets EDXAPP_PLATFORM_NAME, by default it will take your github username/sandbox dns name as value")
                 stringParam("sandbox_life","7","Number of day(s) sandbox will be online(between 1 to 30)")
                 stringParam("configuration_version","master","")
                 stringParam("configuration_source_repo","https://github.com/edx/configuration.git",
@@ -152,7 +152,7 @@ class CreateSandbox {
 
                 booleanParam("run_oauth",true,"")
 
-                stringParam("nginx_users",'{"name": "{{ COMMON_HTPASSWD_USER }}","password": "{{ COMMON_HTPASSWD_PASS }}"')
+                stringParam("nginx_users",'{"name": "{{ COMMON_HTPASSWD_USER }}","password": "{{ COMMON_HTPASSWD_PASS }}"}',"")
             }
 
 
