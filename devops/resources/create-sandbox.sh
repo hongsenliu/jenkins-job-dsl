@@ -1,12 +1,12 @@
 #!/bin/bash
 
-set -e
+set -ex
 cd configuration
 pip install -r requirements.txt
 pip install awscli
 
 # we don't want to print out the temporary session keys
-set -x
+set +x
 
 
 SESSIONID=$(date +"%s")
@@ -21,6 +21,6 @@ export AWS_SECRET_ACCESS_KEY=${RESULT[1]}
 export AWS_SECURITY_TOKEN=${RESULT[2]}
 export AWS_SESSION_TOKEN=${AWS_SECURITY_TOKEN}
 
-set +x
+set -x
 
 bash util/jenkins/ansible-provision.sh
