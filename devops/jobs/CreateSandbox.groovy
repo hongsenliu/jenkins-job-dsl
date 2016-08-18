@@ -28,6 +28,34 @@ class CreateSandbox {
 
             logRotator common_logrotator
 
+            multiscm {
+                git {
+                    remote {
+                        url('$configuration_source_repo')
+                        branch('$configuration_version')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('configuration')
+                    }
+                }
+                git {
+                    remote {
+                        url(extraVars.get('CONFIGURATION_SECURE_REPO',''))
+                        branch('$configuration_secure_version')
+                        credentials('sandbox-secure-credentials')
+                    }
+                    extensions {
+                        cleanAfterCheckout()
+                        pruneBranches()
+                        relativeTargetDirectory('configuration-secure')
+                    }
+                }
+            }
+
+
+
             parameters {
                 booleanParam("recreate",true,"Checking this option will terminate an existing instance if it already exists and start over from scratch")
                 stringParam("dns_param","",
