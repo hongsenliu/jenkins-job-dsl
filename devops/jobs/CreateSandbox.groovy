@@ -14,7 +14,7 @@ import static org.edx.jenkins.dsl.DevopsConstants.common_logrotator
 
 class CreateSandbox {
     public static def job = { dslFactory, extraVars ->
-        return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/Create Sandbox") {
+        return dslFactory.job(extraVars.get("FOLDER_NAME","Sandboxes") + "/CreateSandbox") {
 
             wrappers common_wrappers
 
