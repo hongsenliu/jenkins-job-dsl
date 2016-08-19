@@ -24,6 +24,7 @@ class CreateSandbox {
                     string('ROLE_ARN','sandbox-role-arn')
                     string('DATADOG_KEY','datadog-key')
                 }
+                sshAgent('sandbox-ssh-keys')
             }
 
             logRotator common_logrotator
