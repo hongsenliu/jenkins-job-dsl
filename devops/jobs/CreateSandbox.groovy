@@ -134,7 +134,7 @@ class CreateSandbox {
 
                 stringParam("aws_account","sandbox","")
 
-                stringParam("keypair","continuous-integration","")
+                stringParam("keypair",extraVars.get('SSH_KEYPAIR_NAME'),"")
 
                 choiceParam("root_ebs_size",
                             ["50",
